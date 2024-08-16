@@ -12,9 +12,12 @@ function TodoList() {
     setTodos([...todos, newTodo]);
     console.log([...todos, newTodo]);
   };
-  const handleDelete = (todoId) => {
+  const handleDelete = async (todoId) => {
     const updatedTodos = todos.filter((todo) => todoId !== todo.id);
     setTodos(updatedTodos);
+    const req = await fetch(`/todos/${todoId}`);
+
+    console.log(req);
   };
   return (
     <>
