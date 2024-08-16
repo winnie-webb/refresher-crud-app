@@ -15,7 +15,9 @@ function TodoList() {
   const handleDelete = async (todoId) => {
     const updatedTodos = todos.filter((todo) => todoId !== todo.id);
     setTodos(updatedTodos);
-    const req = await fetch(`/todos/${todoId}`);
+    const req = await fetch(`/api/todos/${todoId}`, {
+      method: "DELETE",
+    });
 
     console.log(req);
   };
@@ -30,6 +32,7 @@ function TodoList() {
         ></input>
         <button onClick={() => addTodo()}>Add</button>
       </div>
+
       {todos.map((todo, index) => (
         <div key={index} className="">
           <Todo
