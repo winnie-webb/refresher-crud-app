@@ -4,6 +4,15 @@ import PropTypes from "prop-types";
 function Todo({ name, handleDelete, setTodos, todos, todo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editingValue, setEditingValue] = useState("");
+  const handleEdit = async (todoForEdit) => {
+    await fetch(`http://localhost:3000/api/todos/${todoForEdit._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todoForEdit),
+    });
+  };
   return (
     <>
       <div className="todo-container" key={todo._id}>
@@ -17,13 +26,15 @@ function Todo({ name, handleDelete, setTodos, todos, todo }) {
               <button
                 onClick={() => {
                   const newTodos = [...todos];
+                  console.log(newTodos);
                   const todoForUpdate = newTodos.find(
-                    (currentTodo) => currentTodo.id === todo._id
+                    (currentTodo) => currentTodo._id === todo._id
                   );
                   todoForUpdate.name = editingValue;
-                  console.log(newTodos);
+                  console.log(todoForUpdate);
                   setTodos(newTodos);
                   setIsEditing(!isEditing);
+                  handleEdit(todoForUpdate);
                 }}
               >
                 Update
