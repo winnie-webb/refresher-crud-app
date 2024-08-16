@@ -1,25 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Todo from "./Todo";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const addTodo = () => {
+  useEffect(() => {
+    fetch("http://localhost:3000/api/todos")
+      .then((response) => response.json())
+      .then((data) => {
+        setTodos(data);
+      })
+      .catch((error) => console.error("Error:", error));
+  }, []);
+  const addTodo = async () => {
     const newTodo = {
       name: inputValue.trim(),
-      id: Math.floor(Math.random() * 10000000000),
     };
     setTodos([...todos, newTodo]);
-    console.log([...todos, newTodo]);
+    await fetch(`http://localhost:3000/api/todos/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodo),
+    });
   };
   const handleDelete = async (todoId) => {
-    const updatedTodos = todos.filter((todo) => todoId !== todo.id);
+    const updatedTodos = todos.filter((todo) => todoId !== todo._id);
     setTodos(updatedTodos);
-    const req = await fetch(`/api/todos/${todoId}`, {
+    fetch(`http://localhost:3000/api/todos/${todoId}`, {
       method: "DELETE",
-    });
-
-    console.log(req);
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
   };
   return (
     <>

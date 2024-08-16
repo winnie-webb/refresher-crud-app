@@ -6,7 +6,7 @@ function Todo({ name, handleDelete, setTodos, todos, todo }) {
   const [editingValue, setEditingValue] = useState("");
   return (
     <>
-      <div className="todo-container" key={todo.id}>
+      <div className="todo-container" key={todo._id}>
         <>
           {isEditing && (
             <>
@@ -18,7 +18,7 @@ function Todo({ name, handleDelete, setTodos, todos, todo }) {
                 onClick={() => {
                   const newTodos = [...todos];
                   const todoForUpdate = newTodos.find(
-                    (currentTodo) => currentTodo.id === todo.id
+                    (currentTodo) => currentTodo.id === todo._id
                   );
                   todoForUpdate.name = editingValue;
                   console.log(newTodos);
@@ -35,7 +35,7 @@ function Todo({ name, handleDelete, setTodos, todos, todo }) {
         {!isEditing && (
           <>
             <span>{name}</span>
-            <button onClick={() => handleDelete(todo.id)}>Delete</button>
+            <button onClick={() => handleDelete(todo._id)}>Delete</button>
             <button
               onClick={() => {
                 setIsEditing(!isEditing);
@@ -54,12 +54,11 @@ Todo.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   setTodos: PropTypes.func.isRequired,
   todo: PropTypes.shape({
-    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
   }),
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
