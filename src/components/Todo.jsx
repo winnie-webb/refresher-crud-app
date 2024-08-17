@@ -5,7 +5,7 @@ function Todo({ name, handleDelete, setTodos, todos, todo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editingValue, setEditingValue] = useState("");
   const handleEdit = async (todoForEdit) => {
-    await fetch(`http://localhost:3000/api/todos/${todoForEdit._id}`, {
+    await fetch(`api/todos/${todoForEdit._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

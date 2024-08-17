@@ -5,7 +5,7 @@ function TodoList() {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   useEffect(() => {
-    fetch("http://localhost:3000/api/todos")
+    fetch("api/todos")
       .then((response) => response.json())
       .then((data) => {
         setTodos(data);
@@ -17,7 +17,7 @@ function TodoList() {
       name: inputValue.trim(),
     };
     setTodos([...todos, newTodo]);
-    await fetch(`http://localhost:3000/api/todos/`, {
+    await fetch(`api/todos/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,7 @@ function TodoList() {
   const handleDelete = async (todoId) => {
     const updatedTodos = todos.filter((todo) => todoId !== todo._id);
     setTodos(updatedTodos);
-    fetch(`http://localhost:3000/api/todos/${todoId}`, {
+    fetch(`api/todos/${todoId}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
